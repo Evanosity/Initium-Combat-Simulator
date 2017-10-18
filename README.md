@@ -1,4 +1,4 @@
-#Combat Simulator for Initium
+# Combat Simulator for Initium
 
 By Evanosity
 
