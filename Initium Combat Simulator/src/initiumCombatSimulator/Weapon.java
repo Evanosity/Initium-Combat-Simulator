@@ -1,5 +1,7 @@
 package initiumCombatSimulator;
 
+import javax.swing.JTextArea;
+
 /**
  * Weapon Class - this is the object for weapons, that entities will use to beat each other up with.
  * @author Evanosity
@@ -22,8 +24,8 @@ public class Weapon extends Equipment{
 	 * @param thisEntity - this is the entity that this Weapon will be equipped to.
 	 * @param slot - this is the slot under in which this item is equipped to.
 	 */
-	public Weapon(String offenses, String defenses, Entity thisEntity, String slot){
-		super(defenses, thisEntity, slot);
+	public Weapon(String offenses, String defenses, Entity thisEntity, String slot, JTextArea output){
+		super(defenses, thisEntity, slot, output);
 		System.out.println("\n\n");
 		numberOfDice=Integer.parseInt(offenses.substring(0, offenses.indexOf("/")));
 		offenses=offenses.substring(offenses.indexOf("/")+1, offenses.length());
@@ -50,6 +52,9 @@ public class Weapon extends Equipment{
 		}
 		if(damageTypes.contains("s")||damageTypes.contains("S")){
 			slashing=true;
+		}
+		if(damageTypes.contains("t")||damageTypes.contains("T")){
+			isTwoHanded=true;
 		}
 	}
 	

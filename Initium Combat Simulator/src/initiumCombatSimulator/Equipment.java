@@ -1,4 +1,7 @@
 package initiumCombatSimulator;
+
+import javax.swing.JTextArea;
+
 /**
  * This is the base object for all of the different equipment style objects, such as Weapon and Armor.
  * @author Evanosity
@@ -20,39 +23,44 @@ public class Equipment {
 	 * @param base - String representation of this piece of equipment
 	 * @param thisEntity - the entity that this piece of equipment will belong to
 	 */
-	public Equipment(String base, Entity thisEntity, String slot){
+	public Equipment(String base, Entity thisEntity, String slot, JTextArea output){
 		//all of the System.out.println calls in this are for debugging to the console in case things break spectacularly.
-		equipmentSlot=slot;
-		//System.out.println("\n\n");
-		//System.out.println(base);
-		equippedTo=thisEntity;
-		//what each of these snippets does is find the substring of the first parameter, record it, remove it, and then go on to the next.
-		dexPen=Integer.parseInt(base.substring(0, base.indexOf("/")));
-		base=base.substring(base.indexOf("/")+1, base.length());
-		//System.out.println(dexPen);
-		
-		blockChance=Double.parseDouble(base.substring(0, base.indexOf("/")));
-		base=base.substring(base.indexOf("/")+1, base.length());
-		//System.out.println(blockChance);
-		
-		damageReduction=Double.parseDouble(base.substring(0, base.indexOf("/")));
-		base=base.substring(base.indexOf("/")+1, base.length());
-		//System.out.println(damageReduction);
-		
-		bludgeMod=Double.parseDouble(base.substring(0, base.indexOf("/")));
-		base=base.substring(base.indexOf("/")+1, base.length());
-		//System.out.println(bludgeMod);
-		
-		pierceMod=Double.parseDouble(base.substring(0, base.indexOf("/")));
-		base=base.substring(base.indexOf("/")+1, base.length());
-		//System.out.println(pierceMod);
-		
-		slashMod=Double.parseDouble(base.substring(0, base.indexOf("/")));
-		base=base.substring(base.indexOf("/")+1, base.length());
-		//System.out.println(slashMod);
+		try{
+			equipmentSlot=slot;
+			//System.out.println("\n\n");
+			//System.out.println(base);
+			equippedTo=thisEntity;
+			//what each of these snippets does is find the substring of the first parameter, record it, remove it, and then go on to the next.
+			dexPen=Integer.parseInt(base.substring(0, base.indexOf("/")));
+			base=base.substring(base.indexOf("/")+1, base.length());
+			//System.out.println(dexPen);
+			
+			blockChance=Double.parseDouble(base.substring(0, base.indexOf("/")));
+			base=base.substring(base.indexOf("/")+1, base.length());
+			//System.out.println(blockChance);
+			
+			damageReduction=Double.parseDouble(base.substring(0, base.indexOf("/")));
+			base=base.substring(base.indexOf("/")+1, base.length());
+			//System.out.println(damageReduction);
+			
+			bludgeMod=Double.parseDouble(base.substring(0, base.indexOf("/")));
+			base=base.substring(base.indexOf("/")+1, base.length());
+			//System.out.println(bludgeMod);
+			
+			pierceMod=Double.parseDouble(base.substring(0, base.indexOf("/")));
+			base=base.substring(base.indexOf("/")+1, base.length());
+			//System.out.println(pierceMod);
+			
+			slashMod=Double.parseDouble(base.substring(0, base.indexOf("/")));
+			base=base.substring(base.indexOf("/")+1, base.length());
+			//System.out.println(slashMod);
 
-		name=base;
-		//System.out.println(name);
+			name=base;
+			//System.out.println(name);
+		}
+		catch(Exception e){
+			//output.append("An issue occured when generating the equipment piece "+slot+" for character "+thisEntity.getName()+". Please double check your source file.");
+		}
 	}
 	
 	/**

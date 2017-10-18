@@ -17,6 +17,7 @@ public class Entity extends IO{
 	private Armor[] armor;
 	private Weapon lefthand;
 	private Weapon righthand;
+	private JTextArea writeTo;
 	
 	/**
 	 * public Entity - basic constructor for Entities.
@@ -27,6 +28,7 @@ public class Entity extends IO{
 		super(output);
 		String[] base=readFile(fileLocation);
 		createEntity(base);
+		writeTo=output;
 	}
 	
 	/**
@@ -37,6 +39,7 @@ public class Entity extends IO{
 	public Entity(String[] loadFrom, JTextArea output){
 		super(output);
 		createEntity(loadFrom);
+		writeTo=output;
 	}
 	
 	/**
@@ -68,31 +71,36 @@ public class Entity extends IO{
 	 * @param base - A string array representation of the Entity we are going to create.
 	 */
 	private void createEntity(String[] base){
-		name=base[0];
-		str=new double[2];
-		dex=new double[2];
-		inte=new double[2];
-		hp=new int[2];
-		armor=new Armor[9];
-		str[0]=Double.parseDouble(base[1]);
-		str[1]=Double.parseDouble(base[1]);
-		dex[0]=Double.parseDouble(base[2]);
-		dex[1]=Double.parseDouble(base[2]);
-		inte[0]=Double.parseDouble(base[3]);
-		inte[1]=Double.parseDouble(base[3]);
-		hp[0]=Integer.parseInt(base[4]);
-		hp[1]=Integer.parseInt(base[4]);
-		armor[0]=new Armor(base[5],this, "head");
-		armor[1]=new Armor(base[6], this, "chest");
-		armor[2]=new Armor(base[7],this, "shirt");
-		armor[3]=new Armor(base[8],this, "gloves");
-		armor[4]=new Armor(base[9],this, "legs");
-		armor[5]=new Armor(base[10],this, "boots");
-		armor[6]=new Armor(base[11],this, "leftring");
-		armor[7]=new Armor(base[12],this, "rightring");
-		armor[8]=new Armor(base[13],this, "neck");
-		lefthand=new Weapon(base[14],base[15],this, "lefthand");
-		righthand=new Weapon(base[16],base[17],this, "righthand");
+		try{
+			name=base[0];
+			str=new double[2];
+			dex=new double[2];
+			inte=new double[2];
+			hp=new int[2];
+			armor=new Armor[9];
+			str[0]=Double.parseDouble(base[1]);
+			str[1]=Double.parseDouble(base[1]);
+			dex[0]=Double.parseDouble(base[2]);
+			dex[1]=Double.parseDouble(base[2]);
+			inte[0]=Double.parseDouble(base[3]);
+			inte[1]=Double.parseDouble(base[3]);
+			hp[0]=Integer.parseInt(base[4]);
+			hp[1]=Integer.parseInt(base[4]);
+		}
+		catch(Exception e){
+			//writeTo.setText("There was an error when generating the stats for entity "+getName()+". Please double check your file.");
+		}
+		armor[0]=new Armor(base[5],this, "head", writeTo);
+		armor[1]=new Armor(base[6], this, "chest", writeTo);
+		armor[2]=new Armor(base[7],this, "shirt", writeTo);
+		armor[3]=new Armor(base[8],this, "gloves", writeTo);
+		armor[4]=new Armor(base[9],this, "legs", writeTo);
+		armor[5]=new Armor(base[10],this, "boots", writeTo);
+		armor[6]=new Armor(base[11],this, "leftring", writeTo);
+		armor[7]=new Armor(base[12],this, "rightring", writeTo);
+		armor[8]=new Armor(base[13],this, "neck", writeTo);
+		lefthand=new Weapon(base[14],base[15],this, "lefthand", writeTo);
+		righthand=new Weapon(base[16],base[17],this, "righthand", writeTo);
 	}
 	
 	/**

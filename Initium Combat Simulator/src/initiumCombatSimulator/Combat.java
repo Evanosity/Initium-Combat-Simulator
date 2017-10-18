@@ -34,22 +34,34 @@ public class Combat {
 			while(!player.isDead()&&!npc.isDead()){
 				turns++;
 				attack(0, player, npc);
-				attack(0, npc, player);
+				if(!npc.isDead()){
+					attack(0, npc, player);
+				}
 			}
 			//System.out.println("turns: "+turns);
+			
 			if(player.isDead()){
 				//System.out.println(player.getName()+" has been slain.");
 				enemyWins++;
 
 			}
-			if(npc.isDead()){
+			else if(npc.isDead()){
 				//System.out.println(npc.getName()+" has been slain.");
 				playerWins++;
 			}
 			player.resetAll();
 			npc.resetAll();
 		}
-		output.setText(npc.getName()+" Wins: "+enemyWins+"\n"+player.getName()+" Wins: "+playerWins+"\n"+(player.getName()+" Win %: "+(double)playerWins/runs+"\n")+"Average Turns: "+turns/runs);   
+		output.setText(player.getName()+" wins: "
+				+ playerWins+"\n\n"
+				+ player.getName()+" win %: "
+				+ (double)playerWins/runs+"\n\n"
+				+ npc.getName()+" wins: "
+				+ enemyWins+"\n\n"
+				+ npc.getName()+" win %: "
+				+ (double)enemyWins/runs+"\n\n"
+				+ "Turns: "+turns/runs
+				+ "");
 		//System.out.println("\n"+npc.getName()+" Wins: "+enemyWins);
 		//System.out.println(player.getName()+" Wins: "+playerWins);
 		//System.out.println(player.getName()+" Win %: "+(double)playerWins/runs);

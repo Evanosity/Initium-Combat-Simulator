@@ -31,37 +31,40 @@ public class Main {
 		GUI.setLayout(null);
 		GUI.setDefaultCloseOperation(3);
 		GUI.setResizable(false);
-		GUI.setPreferredSize(new Dimension(400,500));
+		GUI.setPreferredSize(new Dimension(400,550));
 		GUI.pack();
 		
 		//this button, when clicked, will run the simulation.
 		runSim=new JButton("Run Simulation");
 		runSim.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {		
-
+				results.setText("");
 				int runs=0;
 				try{
 					runs=Integer.parseInt(numberOfRuns.getText());
 				}
 				catch(Exception e){
-					results.setText("That number of runs doesn't make sense...");
 				}
+				
+				Entity Attacker=new Entity(attackerFile.getText(), results);
+				Entity Defender=new Entity(defenderFile.getText(), results);
 				if(runs<=0){
+					results.append("That number of runs doesn't make sense...");
 				}
+
 				else{
-					Entity Attacker=new Entity(attackerFile.getText(), results);
-					Entity Defender=new Entity(defenderFile.getText(), results);
+
 					Combat Battle=new Combat(Attacker, Defender, results);
-					results.setText("Running Simulation. This may take a while....");
+					results.append("Running Simulation. This may take a while....");
 					Battle.runSim(runs);
 				}
 			}	
 		});
-		runSim.setBounds(100,350,200,100);
+		runSim.setBounds(100,400,200,100);
 		
 		//this is a base text field for whatever I need to convey to the user, be it simulation results or error messages.
 		results=new JTextArea();
-		results.setBounds(50,175,300,150);
+		results.setBounds(50,175,300,200);
 		results.setEditable(false);
 		
 		//this is a text field for the file name of the attacker

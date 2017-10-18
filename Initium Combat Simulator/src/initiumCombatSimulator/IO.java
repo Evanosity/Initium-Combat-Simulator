@@ -54,20 +54,21 @@ public class IO {
 			}
 		}
 		catch(FileNotFoundException e){
-			e.printStackTrace();
-			writeTo.setText("The Specified File "+fileName+" could not be found.");
+			writeTo.append("The Specified File, "+fileName+", could not be found.");
 		}
 		catch(IOException e){
-			writeTo.setText("An unexpected error occured.");
-		}
-		catch(Exception e){
+			writeTo.append("An unexpected error occured.");
 		}
 		finally{
-			try {
+			try{
 				reader.close();
 				System.out.println("Read file complete.");
-			} catch (IOException e) {
+			}
+			catch (IOException e) {
 				writeTo.setText("An unexpected error occured.");
+			}
+			catch(Exception e){
+				
 			}
 		}
 		return toFill;
