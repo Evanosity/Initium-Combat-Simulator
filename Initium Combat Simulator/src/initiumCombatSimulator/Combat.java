@@ -27,6 +27,7 @@ public class Combat {
 	 * @param runs - the number of battles to do.
 	 */
 	public void runSim(int runs){
+		output.append("=== "+player.getName().toUpperCase()+ " VS " +npc.getName().toUpperCase()+" ===\n\n");
 		int playerWins=0;
 		int enemyWins=0;
 		int turns=0;
@@ -52,7 +53,7 @@ public class Combat {
 			player.resetAll();
 			npc.resetAll();
 		}
-		output.setText(player.getName()+" wins: "
+		output.append(player.getName()+" wins: "
 				+ playerWins+"\n\n"
 				+ player.getName()+" win %: "
 				+ (double)playerWins/runs+"\n\n"
@@ -60,7 +61,8 @@ public class Combat {
 				+ enemyWins+"\n\n"
 				+ npc.getName()+" win %: "
 				+ (double)enemyWins/runs+"\n\n"
-				+ "Turns: "+turns/runs
+				+ "Turns: "+turns/runs+"\n\n"
+				+ "Total Runs: "+runs+"\n\n"
 				+ "");
 		//System.out.println("\n"+npc.getName()+" Wins: "+enemyWins);
 		//System.out.println(player.getName()+" Wins: "+playerWins);

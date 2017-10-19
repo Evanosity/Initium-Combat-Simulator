@@ -17,7 +17,7 @@ public class Entity extends IO{
 	private Armor[] armor;
 	private Weapon lefthand;
 	private Weapon righthand;
-	private JTextArea writeTo;
+	//private JTextArea writeTo;
 	
 	/**
 	 * public Entity - basic constructor for Entities.
@@ -27,8 +27,7 @@ public class Entity extends IO{
 	public Entity(String fileLocation, JTextArea output){
 		super(output);
 		String[] base=readFile(fileLocation);
-		createEntity(base);
-		writeTo=output;
+		createEntity(base, output);
 	}
 	
 	/**
@@ -38,8 +37,7 @@ public class Entity extends IO{
 	 */
 	public Entity(String[] loadFrom, JTextArea output){
 		super(output);
-		createEntity(loadFrom);
-		writeTo=output;
+		createEntity(loadFrom, output);
 	}
 	
 	/**
@@ -70,7 +68,7 @@ public class Entity extends IO{
 	 * this was a better option.
 	 * @param base - A string array representation of the Entity we are going to create.
 	 */
-	private void createEntity(String[] base){
+	private void createEntity(String[] base, JTextArea outputZone){
 		try{
 			name=base[0];
 			str=new double[2];
@@ -86,21 +84,22 @@ public class Entity extends IO{
 			inte[1]=Double.parseDouble(base[3]);
 			hp[0]=Integer.parseInt(base[4]);
 			hp[1]=Integer.parseInt(base[4]);
+			armor[0]=new Armor(base[5],this, "head", outputZone);
+			armor[1]=new Armor(base[6], this, "chest", outputZone);
+			armor[2]=new Armor(base[7],this, "shirt", outputZone);
+			armor[3]=new Armor(base[8],this, "gloves", outputZone);
+			armor[4]=new Armor(base[9],this, "legs", outputZone);
+			armor[5]=new Armor(base[10],this, "boots", outputZone);
+			armor[6]=new Armor(base[11],this, "leftring", outputZone);
+			armor[7]=new Armor(base[12],this, "rightring", outputZone);
+			armor[8]=new Armor(base[13],this, "neck", outputZone);
+			lefthand=new Weapon(base[14],base[15],this, "lefthand", outputZone);
+			righthand=new Weapon(base[16],base[17],this, "righthand", outputZone);
 		}
 		catch(Exception e){
-			//writeTo.setText("There was an error when generating the stats for entity "+getName()+". Please double check your file.");
+			outputZone.append("There was an error when generating the stats for entity "+getName()+". Please double check your file.\n\n");
 		}
-		armor[0]=new Armor(base[5],this, "head", writeTo);
-		armor[1]=new Armor(base[6], this, "chest", writeTo);
-		armor[2]=new Armor(base[7],this, "shirt", writeTo);
-		armor[3]=new Armor(base[8],this, "gloves", writeTo);
-		armor[4]=new Armor(base[9],this, "legs", writeTo);
-		armor[5]=new Armor(base[10],this, "boots", writeTo);
-		armor[6]=new Armor(base[11],this, "leftring", writeTo);
-		armor[7]=new Armor(base[12],this, "rightring", writeTo);
-		armor[8]=new Armor(base[13],this, "neck", writeTo);
-		lefthand=new Weapon(base[14],base[15],this, "lefthand", writeTo);
-		righthand=new Weapon(base[16],base[17],this, "righthand", writeTo);
+
 	}
 	
 	/**

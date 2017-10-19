@@ -59,7 +59,7 @@ public class Equipment {
 			//System.out.println(name);
 		}
 		catch(Exception e){
-			//output.append("An issue occured when generating the equipment piece "+slot+" for character "+thisEntity.getName()+". Please double check your source file.");
+			output.append("An issue occured when generating the equipment piece '"+slot+"' for character "+thisEntity.getName()+". Please double check your source file.\n\n");
 		}
 	}
 	

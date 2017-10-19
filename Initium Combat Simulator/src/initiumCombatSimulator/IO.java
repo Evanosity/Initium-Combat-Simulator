@@ -54,7 +54,7 @@ public class IO {
 			}
 		}
 		catch(FileNotFoundException e){
-			writeTo.append("The Specified File, "+fileName+", could not be found.");
+			writeTo.append("The Specified File, "+fileName+", could not be found.\n\n");
 		}
 		catch(IOException e){
 			writeTo.append("An unexpected error occured.");

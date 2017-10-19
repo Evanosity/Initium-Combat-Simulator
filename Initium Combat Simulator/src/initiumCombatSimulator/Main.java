@@ -8,6 +8,7 @@ import java.awt.event.FocusListener;
 
 import javax.swing.JFrame;
 import javax.swing.JButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 
@@ -23,6 +24,8 @@ public class Main {
 	private static JTextField defenderFile;
 	private static JTextField numberOfRuns;
 	private static JTextArea results;
+	private static JScrollPane upgradeYo;
+	
 	public static void main(String[]args){
 		
 		//set up the GUI.
@@ -38,7 +41,6 @@ public class Main {
 		runSim=new JButton("Run Simulation");
 		runSim.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {		
-				results.setText("");
 				int runs=0;
 				try{
 					runs=Integer.parseInt(numberOfRuns.getText());
@@ -49,13 +51,13 @@ public class Main {
 				Entity Attacker=new Entity(attackerFile.getText(), results);
 				Entity Defender=new Entity(defenderFile.getText(), results);
 				if(runs<=0){
-					results.append("That number of runs doesn't make sense...");
+					results.append("That number of runs doesn't make sense...\n\n");
 				}
 
-				else{
+				else if(!results.getText().endsWith(".")){
 
 					Combat Battle=new Combat(Attacker, Defender, results);
-					results.append("Running Simulation. This may take a while....");
+					results.append("Running Simulation. This may take a while....\n\n");
 					Battle.runSim(runs);
 				}
 			}	
@@ -64,8 +66,15 @@ public class Main {
 		
 		//this is a base text field for whatever I need to convey to the user, be it simulation results or error messages.
 		results=new JTextArea();
-		results.setBounds(50,175,300,200);
+		//results.setBounds(50,175,300,200);
 		results.setEditable(false);
+		results.setLineWrap(true);
+		results.setWrapStyleWord(true);
+		
+		//this is a scroll pane that will rule the universe
+		upgradeYo=new JScrollPane(results, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		upgradeYo.setBounds(50,175,300,200);
+		upgradeYo.setVisible(true);
 		
 		//this is a text field for the file name of the attacker
 		//the focus listener emulates the look for real text fields on websites and such, how there's text saying what to do for the field,
@@ -123,7 +132,7 @@ public class Main {
 		});
 		
 		GUI.add(runSim);
-		GUI.add(results);
+		GUI.add(upgradeYo);
 		GUI.add(defenderFile);
 		GUI.add(attackerFile);
 		GUI.add(numberOfRuns);
