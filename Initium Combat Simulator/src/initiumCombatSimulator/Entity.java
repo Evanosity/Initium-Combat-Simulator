@@ -10,6 +10,7 @@ import javax.swing.JTextArea;
  */
 public class Entity extends IO{
 	private String name;
+	private String fileName;
 	private double[] str;
 	private double[] dex;
 	private double[] inte;
@@ -27,6 +28,13 @@ public class Entity extends IO{
 	public Entity(String fileLocation, JTextArea output){
 		super(output);
 		String[] base=readFile(fileLocation);
+		try{
+			fileName=fileLocation.substring(fileLocation.indexOf("/"), fileLocation.length());
+		}
+		catch(Exception e){
+			fileName=fileLocation;
+		}
+		System.out.println(fileName);
 		createEntity(base, output);
 	}
 	
