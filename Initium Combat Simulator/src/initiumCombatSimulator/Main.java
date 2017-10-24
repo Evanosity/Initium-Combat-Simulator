@@ -30,8 +30,9 @@ public class Main {
 	private static JButton editDefender;
 	private static JButton newEntity;
 	
+	@SuppressWarnings("unused")
+
 	public static void main(String[]args){
-		
 		//set up the GUI.
 		GUI=new JFrame("Initium Combat Simulator");
 		GUI.getContentPane();
