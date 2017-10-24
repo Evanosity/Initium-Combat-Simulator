@@ -61,7 +61,7 @@ public class Combat {
 				+ enemyWins+"\n\n"
 				+ npc.getName()+" win %: "
 				+ (double)enemyWins/runs+"\n\n"
-				+ "Turns: "+turns/runs+"\n\n"
+				+ "Average Turns: "+turns/runs+"\n\n"
 				+ "Total Runs: "+runs+"\n\n"
 				+ "");
 		//System.out.println("\n"+npc.getName()+" Wins: "+enemyWins);

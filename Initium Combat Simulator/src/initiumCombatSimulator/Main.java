@@ -26,6 +26,10 @@ public class Main {
 	private static JTextArea results;
 	private static JScrollPane upgradeYo;
 	
+	private static JButton editAttacker;
+	private static JButton editDefender;
+	private static JButton newEntity;
+	
 	public static void main(String[]args){
 		
 		//set up the GUI.
@@ -34,7 +38,7 @@ public class Main {
 		GUI.setLayout(null);
 		GUI.setDefaultCloseOperation(3);
 		GUI.setResizable(false);
-		GUI.setPreferredSize(new Dimension(400,550));
+		GUI.setPreferredSize(new Dimension(400,600));
 		GUI.pack();
 		
 		//this button, when clicked, will run the simulation.
@@ -62,7 +66,7 @@ public class Main {
 				}
 			}	
 		});
-		runSim.setBounds(100,400,200,100);
+		runSim.setBounds(100,450,200,100);
 		
 		//this is a base text field for whatever I need to convey to the user, be it simulation results or error messages.
 		results=new JTextArea();
@@ -73,14 +77,14 @@ public class Main {
 		
 		//this is a scroll pane that will rule the universe
 		upgradeYo=new JScrollPane(results, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		upgradeYo.setBounds(50,175,300,200);
+		upgradeYo.setBounds(50,225,300,200);
 		upgradeYo.setVisible(true);
 		
 		//this is a text field for the file name of the attacker
 		//the focus listener emulates the look for real text fields on websites and such, how there's text saying what to do for the field,
 		//then you click it and it disappears and you can put whatever you want.
 		attackerFile=new JTextField("Attacker File Name here!");
-		attackerFile.setBounds(100, 25, 200, 25);
+		attackerFile.setBounds(25, 75, 200, 25);
 		attackerFile.addFocusListener(new FocusListener(){
 			public void focusGained(FocusEvent arg0) {
 				if(attackerFile.getText().equals("Attacker File Name here!")){
@@ -98,7 +102,7 @@ public class Main {
 		//the focus listener emulates the look for real text fields on websites and such, how there's text saying what to do for the field,
 		//then you click it and it disappears and you can put whatever you want.
 		defenderFile=new JTextField("Defender File Name here!");
-		defenderFile.setBounds(100, 75, 200, 25);
+		defenderFile.setBounds(25, 125, 200, 25);
 		defenderFile.addFocusListener(new FocusListener(){
 			public void focusGained(FocusEvent arg0) {
 				if(defenderFile.getText().equals("Defender File Name here!")){
@@ -117,7 +121,7 @@ public class Main {
 		//the focus listener emulates the look for real text fields on websites and such, how there's text saying what to do for the field,
 		//then you click it and it disappears and you can put whatever you want.
 		numberOfRuns=new JTextField("Number of runs here!");
-		numberOfRuns.setBounds(100, 125, 200, 25);
+		numberOfRuns.setBounds(100, 175, 200, 25);
 		numberOfRuns.addFocusListener(new FocusListener(){
 			public void focusGained(FocusEvent arg0) {
 				if(numberOfRuns.getText().equals("Number of runs here!")){
@@ -131,11 +135,38 @@ public class Main {
 			}
 		});
 		
+		editAttacker=new JButton("Edit this Entity");
+		editAttacker.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				EntityEditor attackerEditor=new EntityEditor(results, attackerFile.getText());
+			}			
+		});
+		editAttacker.setBounds(225, 75, 150, 25);
+		
+		editDefender=new JButton("Edit this Entity");
+		editDefender.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				EntityEditor defenderEditor=new EntityEditor(results, attackerFile.getText());
+			}			
+		});
+		editDefender.setBounds(225, 125, 150, 25);
+		
+		newEntity=new JButton("Create a new Entity");
+		newEntity.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {	
+				EntityEditor newEntity=new EntityEditor(results);
+			}
+		});
+		newEntity.setBounds(100, 25, 200, 25);
+		
 		GUI.add(runSim);
 		GUI.add(upgradeYo);
 		GUI.add(defenderFile);
 		GUI.add(attackerFile);
 		GUI.add(numberOfRuns);
+		GUI.add(editAttacker);
+		GUI.add(editDefender);
+		GUI.add(newEntity);
 		GUI.setVisible(true);
 	}
 }
