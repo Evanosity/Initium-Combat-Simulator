@@ -22,6 +22,7 @@ public class EntityEditor extends IO{
 	private static JOptionPane confirmDialog;
 	private static String[]equips={"Head","Chest","Shirt","Gloves","Legs","Boots","RightRing","LeftRing","Neck"};
 	private static String[]characterStuff={"File Name","Character Name","Strength","Dexterity","Intelligence","HP"};
+	private static String[]equipStats={"DP","BC","DR","Bldg","Prce","Slsh"};
 	
 	private static String fileName;
 	
@@ -45,17 +46,28 @@ public class EntityEditor extends IO{
 		createEditor(readFile(fileName));
 	}
 	
+	/**
+	 * public void createEditor - creates the editor GUI without a source file.
+	 */
 	public void createEditor(){
 		createEditorGUI();
 		Editor.setVisible(true);
 	}
 	
+	/**
+	 * public void createEditor - creates the editor GUI with a source file
+	 * @param toLoad - an string array representation of that file
+	 */
 	public void createEditor(String[] toLoad){
 		createEditorGUI();
-		fillSpaces(toLoad);
+		initFields();
+		fillFields(toLoad);
 		Editor.setVisible(true);
 	}
 	
+	/**
+	 * public void createEditorGUI - creates the actual editor
+	 */
 	public void createEditorGUI(){
 		Editor=new JFrame("Entity Editor - "+fileName);
 		Editor.getContentPane();
@@ -67,7 +79,10 @@ public class EntityEditor extends IO{
 		
 	}
 	
-	public void fillSpaces(String[]loadFrom){
+	/**
+	 * public void initFields - this method initializes, creates and places all of the entry fields and labels.
+	 */
+	public void initFields(){
 		characterFields=new JTextField[12];
 		
 		for(int i=0;i!=6;i++){
@@ -83,13 +98,13 @@ public class EntityEditor extends IO{
 				characterFields[i]=new JTextField(fileName);
 			}
 			else{
-				characterFields[i]=new JTextField(loadFrom[i-7]);
+				characterFields[i]=new JTextField("");
 			}
 			characterFields[i].setBounds(25,((i-5)*50),100,25);
 			Editor.add(characterFields[i]);
 		}
 		
-		equipmentFields=new JTextField[9][7];
+		equipmentFields=new JTextField[9][15];
 		
 		for(int i=0;i!=3;i++){
 			equipmentFields[i][0]=new JTextField(equips[i]);
@@ -100,18 +115,30 @@ public class EntityEditor extends IO{
 			Editor.add(equipmentFields[i][0]);
 			
 			equipmentFields[i][1]=new JTextField("Name:");
-			equipmentFields[i][1].setBounds(150,50+(100*i),50,25);
+			equipmentFields[i][1].setBounds(150,50+(100*i),40,25);
 			equipmentFields[i][1].setOpaque(false);
 			equipmentFields[i][1].setBorder(null);
 			equipmentFields[i][1].setEditable(false);
 			Editor.add(equipmentFields[i][1]);
 			
-			equipmentFields[i][2]=new JTextField(loadFrom[i+5].substring(loadFrom[i+5].lastIndexOf("/")+1, loadFrom[i+5].length()));
-			equipmentFields[i][2].setBounds(200,50+(100*i),200,25);
+			equipmentFields[i][2]=new JTextField("");
+			equipmentFields[i][2].setBounds(190,50+(100*i),210,25);
 			Editor.add(equipmentFields[i][2]);
-
 			
-
+			for(int f=3;f!=9;f++){
+				equipmentFields[i][f]=new JTextField(equipStats[f-3]);
+				equipmentFields[i][f].setBounds(150+(30*(f-3)),75+(100*i),30,25);
+				equipmentFields[i][f].setOpaque(false);
+				equipmentFields[i][f].setBorder(null);
+				equipmentFields[i][f].setEditable(false);
+				Editor.add(equipmentFields[i][f]);
+			}
+			
+			for(int f=9;f!=15;f++){
+				equipmentFields[i][f]=new JTextField("");
+				equipmentFields[i][f].setBounds(150+(30*(f-9)),100+(100*i),30,25);
+				Editor.add(equipmentFields[i][f]);
+			}
 		}
 		for(int i=3;i!=6;i++){
 			equipmentFields[i][0]=new JTextField(equips[i]);
@@ -122,15 +149,30 @@ public class EntityEditor extends IO{
 			Editor.add(equipmentFields[i][0]);
 			
 			equipmentFields[i][1]=new JTextField("Name:");
-			equipmentFields[i][1].setBounds(450,50+(100*(i-3)),50,25);
+			equipmentFields[i][1].setBounds(450,50+(100*(i-3)),40,25);
 			equipmentFields[i][1].setOpaque(false);
 			equipmentFields[i][1].setBorder(null);
 			equipmentFields[i][1].setEditable(false);
 			Editor.add(equipmentFields[i][1]);
 			
-			equipmentFields[i][2]=new JTextField(loadFrom[i+5].substring(loadFrom[i+5].lastIndexOf("/")+1, loadFrom[i+5].length()));
-			equipmentFields[i][2].setBounds(500,50+(100*(i-3)),200,25);
+			equipmentFields[i][2]=new JTextField("");
+			equipmentFields[i][2].setBounds(490,50+(100*(i-3)),210,25);
 			Editor.add(equipmentFields[i][2]);
+			
+			for(int f=3;f!=9;f++){
+				equipmentFields[i][f]=new JTextField(equipStats[f-3]);
+				equipmentFields[i][f].setBounds(450+(30*(f-3)),75+(100*(i-3)),30,25);
+				equipmentFields[i][f].setOpaque(false);
+				equipmentFields[i][f].setBorder(null);
+				equipmentFields[i][f].setEditable(false);
+				Editor.add(equipmentFields[i][f]);
+			}
+			
+			for(int f=9;f!=15;f++){
+				equipmentFields[i][f]=new JTextField("");
+				equipmentFields[i][f].setBounds(450+(30*(f-9)),100+(100*(i-3)),30,25);
+				Editor.add(equipmentFields[i][f]);
+			}
 		}
 		for(int i=6;i!=9;i++){
 			equipmentFields[i][0]=new JTextField(equips[i]);
@@ -141,16 +183,53 @@ public class EntityEditor extends IO{
 			Editor.add(equipmentFields[i][0]);
 			
 			equipmentFields[i][1]=new JTextField("Name:");
-			equipmentFields[i][1].setBounds(750,50+(100*(i-6)),50,25);
+			equipmentFields[i][1].setBounds(750,50+(100*(i-6)),40,25);
 			equipmentFields[i][1].setOpaque(false);
 			equipmentFields[i][1].setBorder(null);
 			equipmentFields[i][1].setEditable(false);
 			Editor.add(equipmentFields[i][1]);
 			
-			equipmentFields[i][2]=new JTextField(loadFrom[i+5].substring(loadFrom[i+5].lastIndexOf("/")+1, loadFrom[i+5].length()));
-			equipmentFields[i][2].setBounds(800,50+(100*(i-6)),200,25);
+			equipmentFields[i][2]=new JTextField("");
+			equipmentFields[i][2].setBounds(790,50+(100*(i-6)),210,25);
 			Editor.add(equipmentFields[i][2]);
+			
+			for(int f=3;f!=9;f++){
+				equipmentFields[i][f]=new JTextField(equipStats[f-3]);
+				equipmentFields[i][f].setBounds(750+(30*(f-3)),75+(100*(i-6)),30,25);
+				equipmentFields[i][f].setOpaque(false);
+				equipmentFields[i][f].setBorder(null);
+				equipmentFields[i][f].setEditable(false);
+				Editor.add(equipmentFields[i][f]);
+			}
+			
+			for(int f=9;f!=15;f++){
+				equipmentFields[i][f]=new JTextField("");
+				equipmentFields[i][f].setBounds(750+(30*(f-9)),100+(100*(i-6)),30,25);
+				Editor.add(equipmentFields[i][f]);
+			}
 		}
+	}
+	
+	/**
+	 * public void fillFields - loads the editor with the specified file.
+	 * @param toLoad - String array representation of that file.
+	 */
+	public void fillFields(String[] toLoad){
+		String[]base=toLoad;
+		String[][]dd=new String[19][7];
+		for(int i=6;i!=toLoad.length-1;i++){
+			System.out.println(toLoad[i]);
+			for(int f=0;f!=7;f++){
+				try{
+					dd[i][f]=base[i].substring(0, base[i].indexOf("/"));
+					base[i]=base[i].substring(base[i].indexOf("/")+1, base[i].length());
+				}
+				catch(StringIndexOutOfBoundsException e){
+					dd[i][f]=base[i];
+				}
+			}
+		}
+		//loop to fill all the fields with the specified info
 	}
 	
 	public void saveFile(){
