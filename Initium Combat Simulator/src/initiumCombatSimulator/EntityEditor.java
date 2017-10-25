@@ -3,6 +3,7 @@ package initiumCombatSimulator;
 import java.awt.Dimension;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -17,12 +18,16 @@ public class EntityEditor extends IO{
 	private static JFrame Editor;
 	private static JTextField[] characterFields;
 	private static JTextField[][] equipmentFields;
+	private static JTextField[][] weaponFields;
+	private static JCheckBox[][] damageTypes;
 	private static JTextField outputError;
 	private static JButton saveButton;
 	private static JOptionPane confirmDialog;
+	
 	private static String[]equips={"Head","Chest","Shirt","Gloves","Legs","Boots","RightRing","LeftRing","Neck"};
 	private static String[]characterStuff={"File Name","Character Name","Strength","Dexterity","Intelligence","HP"};
 	private static String[]equipStats={"DP","BC","DR","Bldg","Prce","Slsh"};
+	private static String[]weaponStats={"Xdy","xdY","CrtM","Crt%","Bldg","Prce","Slsh","2H"};
 	
 	private static String fileName;
 	
@@ -32,6 +37,7 @@ public class EntityEditor extends IO{
 	 */
 	public EntityEditor(JTextArea output) {
 		super(output);
+		fileName="";
 		createEditor();
 	}
 	
@@ -51,6 +57,7 @@ public class EntityEditor extends IO{
 	 */
 	public void createEditor(){
 		createEditorGUI();
+		initFields();
 		Editor.setVisible(true);
 	}
 	
@@ -72,9 +79,9 @@ public class EntityEditor extends IO{
 		Editor=new JFrame("Entity Editor - "+fileName);
 		Editor.getContentPane();
 		Editor.setLayout(null);
-		Editor.setDefaultCloseOperation(3); //CHANGE TO 2 WHEN YOU'RE DONE YOU FUCKING FOOL
+		Editor.setDefaultCloseOperation(3); //2 means just the window closes; 3 means the entire programs ends.
 		Editor.setResizable(false);
-		Editor.setPreferredSize(new Dimension(1200,450));
+		Editor.setPreferredSize(new Dimension(1325,450));
 		Editor.pack();
 		
 	}
@@ -85,6 +92,7 @@ public class EntityEditor extends IO{
 	public void initFields(){
 		characterFields=new JTextField[12];
 		
+		//initialize the fields for character stuff
 		for(int i=0;i!=6;i++){
 			characterFields[i]=new JTextField(characterStuff[i]);
 			characterFields[i].setBounds(25,25+(i*50),100,25);
@@ -93,6 +101,8 @@ public class EntityEditor extends IO{
 			characterFields[i].setEditable(false);
 			Editor.add(characterFields[i]);
 		}
+		
+		
 		for(int i=6;i!=12;i++){
 			if(i==6){
 				characterFields[i]=new JTextField(fileName);
@@ -106,11 +116,11 @@ public class EntityEditor extends IO{
 		
 		equipmentFields=new JTextField[9][15];
 		
+		//initialize all the equipment fields
 		for(int i=0;i!=3;i++){
 			equipmentFields[i][0]=new JTextField(equips[i]);
 			equipmentFields[i][0].setBounds(150,25+(100*i),250,25);
 			equipmentFields[i][0].setOpaque(false);
-			//equipmentFields[i][0].setBorder(null);
 			equipmentFields[i][0].setEditable(false);
 			Editor.add(equipmentFields[i][0]);
 			
@@ -208,6 +218,73 @@ public class EntityEditor extends IO{
 				Editor.add(equipmentFields[i][f]);
 			}
 		}
+		
+		//initialize all the weapon fields
+		weaponFields=new JTextField[2][27];
+		
+		weaponFields[0][0]=new JTextField("Left Hand Weapon");
+		weaponFields[0][0].setBounds(1050,25,250,25);
+		weaponFields[0][0].setOpaque(false);
+		weaponFields[0][0].setEditable(false);
+		Editor.add(weaponFields[0][0]);
+		
+		weaponFields[1][0]=new JTextField("Right Hand Weapon");
+		weaponFields[1][0].setBounds(1050,175,250,25);
+		weaponFields[1][0].setOpaque(false);
+		weaponFields[1][0].setEditable(false);
+		Editor.add(weaponFields[1][0]);
+		
+		for(int i=0;i!=2;i++){
+			weaponFields[i][1]=new JTextField("Name:");
+			weaponFields[i][1].setBounds(1050,50+(i*150),40,25);
+			weaponFields[i][1].setOpaque(false);
+			weaponFields[i][1].setBorder(null);
+			weaponFields[i][1].setEditable(false);
+			Editor.add(weaponFields[i][1]);
+			
+			weaponFields[i][2]=new JTextField("");
+			weaponFields[i][2].setBounds(1090,50+(i*150),210,25);
+			Editor.add(weaponFields[i][2]);
+			
+			for(int f=3;f!=9;f++){
+				weaponFields[i][f]=new JTextField(equipStats[f-3]);
+				weaponFields[i][f].setBounds(1050+(30*(f-3)),75+(i*150),30,25);
+				weaponFields[i][f].setOpaque(false);
+				weaponFields[i][f].setBorder(null);
+				weaponFields[i][f].setEditable(false);
+				Editor.add(weaponFields[i][f]);
+			}
+			
+			for(int f=9;f!=15;f++){
+				weaponFields[i][f]=new JTextField("");
+				weaponFields[i][f].setBounds(1050+(30*(f-9)),100+(i*150),30,25);
+				Editor.add(weaponFields[i][f]);
+			}
+			for(int f=15;f!=23;f++){
+				weaponFields[i][f]=new JTextField(weaponStats[f-15]);
+				weaponFields[i][f].setBounds(1050+(30*(f-15)),125+(i*150),30,25);
+				weaponFields[i][f].setOpaque(false);
+				weaponFields[i][f].setBorder(null);
+				weaponFields[i][f].setEditable(false);
+				Editor.add(weaponFields[i][f]);
+			}
+			for(int f=23;f!=27;f++){
+				weaponFields[i][f]=new JTextField("");
+				weaponFields[i][f].setBounds(1050+(30*(f-23)),150+(i*150),30,25);
+				Editor.add(weaponFields[i][f]);
+			}
+		}
+		
+		//initialize the damage type/2h stuff
+		
+		damageTypes=new JCheckBox[2][4];
+		for(int i=0;i!=2;i++){
+			for(int f=0;f!=4;f++){
+				damageTypes[i][f]=new JCheckBox();
+				damageTypes[i][f].setBounds(1175+(30*f),150+(i*150),25,25);
+				Editor.add(damageTypes[i][f]);
+			}
+		}
 	}
 	
 	/**
@@ -217,8 +294,8 @@ public class EntityEditor extends IO{
 	public void fillFields(String[] toLoad){
 		String[]base=toLoad;
 		String[][]dd=new String[19][7];
-		for(int i=6;i!=toLoad.length-1;i++){
-			System.out.println(toLoad[i]);
+		//Load the file into a 2d string array.
+		for(int i=5;i!=toLoad.length-1;i++){
 			for(int f=0;f!=7;f++){
 				try{
 					dd[i][f]=base[i].substring(0, base[i].indexOf("/"));
@@ -229,9 +306,47 @@ public class EntityEditor extends IO{
 				}
 			}
 		}
-		//loop to fill all the fields with the specified info
+		
+		//load character info
+		for(int i=0;i!=5;i++){
+			characterFields[i+7].setText(toLoad[i]);
+		}
+		
+		//load all the armor pieces
+		for(int i=5;i!=dd.length-5;i++){
+			equipmentFields[i-5][2].setText(dd[i][6]);
+			for(int f=0;f!=6;f++){
+				equipmentFields[i-5][f+9].setText(dd[i][f]);
+			}
+		}
+		
+		//load both the weapons
+		for(int i=0;i!=2;i++){
+			weaponFields[i][2].setText(dd[15+(i*2)][6]);
+			for(int f=0;f!=6;f++){
+				weaponFields[i][9+f].setText(dd[15+(i*2)][f]);
+			}
+			for(int f=0;f!=4;f++){
+				weaponFields[i][23+f].setText(dd[14+(i*2)][f]);
+			}
+			if(dd[14+(i*2)][4].contains("b")||dd[14+(i*2)][4].contains("B")){
+				damageTypes[i][0].setSelected(true);
+			}
+			if(dd[14+(i*2)][4].contains("p")||dd[14+(i*2)][4].contains("P")){
+				damageTypes[i][1].setSelected(true);
+			}
+			if(dd[14+(i*2)][4].contains("s")||dd[14+(i*2)][4].contains("S")){
+				damageTypes[i][2].setSelected(true);
+			}
+			if(dd[14+(i*2)][4].contains("t")||dd[14+(i*2)][4].contains("T")){
+				damageTypes[i][3].setSelected(true);
+			}
+		}
 	}
 	
+	/**
+	 * public void saveFile - saves the current entity a file. Will only save if it has been formatted correctly.
+	 */
 	public void saveFile(){
 		
 	}

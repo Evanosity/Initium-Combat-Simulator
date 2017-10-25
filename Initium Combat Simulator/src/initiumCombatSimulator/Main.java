@@ -147,7 +147,7 @@ public class Main {
 		editDefender=new JButton("Edit this Entity");
 		editDefender.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				EntityEditor defenderEditor=new EntityEditor(results, attackerFile.getText());
+				EntityEditor defenderEditor=new EntityEditor(results, defenderFile.getText());
 			}			
 		});
 		editDefender.setBounds(225, 125, 150, 25);
