@@ -1,6 +1,9 @@
 package initiumCombatSimulator;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -285,6 +288,26 @@ public class EntityEditor extends IO{
 				Editor.add(damageTypes[i][f]);
 			}
 		}
+		
+		saveButton=new JButton("Save to file");
+		saveButton.setBounds(25, 350, 200, 25);
+		saveButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				File file=new File("");
+				String sep=System.getProperty("file.separator");
+				file=new File(file.getAbsolutePath()+String.format("%sresources%sentities%s"+characterFields[6].getText(), sep, sep, sep)); 
+				if(file.exists()){
+				    int reply = JOptionPane.showConfirmDialog(null, "File "+characterFields[6].getText()+" already exists! Do you want to overwrite it?", "File "+characterFields[6].getText()+" already exists!", JOptionPane.YES_NO_OPTION);
+			        if (reply == JOptionPane.YES_OPTION) {
+			          saveFile();
+			        }
+			        else {
+			           JOptionPane.showMessageDialog(null, "File save cancelled.");
+			        }
+				}
+			}
+		});
+		Editor.add(saveButton);
 	}
 	
 	/**
@@ -348,6 +371,14 @@ public class EntityEditor extends IO{
 	 * public void saveFile - saves the current entity a file. Will only save if it has been formatted correctly.
 	 */
 	public void saveFile(){
+		//checks to see if all the fields are formatted correctly. Then, if so, writes to the specified file.
+		String[] toWrite=new String[18];
 		
+		//
+		for(int i=0;i!=5;i++){
+			toWrite[i]=characterFields[7+i].getText();
+		}
+		
+		JOptionPane.showMessageDialog(null, "File Save Complete");
 	}
 }
