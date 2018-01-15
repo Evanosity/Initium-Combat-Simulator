@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -23,9 +24,9 @@ public class EntityEditor extends IO{
 	private static JTextField[][] equipmentFields;
 	private static JTextField[][] weaponFields;
 	private static JCheckBox[][] damageTypes;
-	private static JTextField outputError;
+	private static JTextArea outputError;
+	private static JScrollPane outputErrorScroll;
 	private static JButton saveButton;
-	private static JOptionPane confirmDialog;
 	
 	private static String[]equips={"Head","Chest","Shirt","Gloves","Legs","Boots","RightRing","LeftRing","Neck"};
 	private static String[]characterStuff={"File Name","Character Name","Strength","Dexterity","Intelligence","HP"};
@@ -71,6 +72,7 @@ public class EntityEditor extends IO{
 	public void createEditor(String[] toLoad){
 		createEditorGUI();
 		initFields();
+		createErrorBox();
 		fillFields(toLoad);
 		Editor.setVisible(true);
 	}
@@ -87,6 +89,23 @@ public class EntityEditor extends IO{
 		Editor.setPreferredSize(new Dimension(1325,450));
 		Editor.pack();
 		
+	}
+	
+	public void createErrorBox(){
+		//this is a base text field for whatever I need to convey to the user, be it simulation results or error messages.
+		outputError=new JTextArea();
+		outputError.setEditable(false);
+		outputError.setLineWrap(true);
+		outputError.setWrapStyleWord(true);
+		
+		//this is a scroll pane that will rule the universe
+		outputErrorScroll=new JScrollPane(outputError, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		outputErrorScroll.setBounds(400,340,500,75);
+		outputErrorScroll.setVisible(true);
+		
+		outputError.append("Errors will show up here when you try to save.\n\n");
+		
+		Editor.add(outputErrorScroll);
 	}
 	
 	/**
@@ -367,18 +386,94 @@ public class EntityEditor extends IO{
 		}
 	}
 	
+	public void displayErrors(String toDisplay){
+		outputError.setText(toDisplay);
+	}
+	
 	/**
 	 * public void saveFile - saves the current entity a file. Will only save if it has been formatted correctly.
 	 */
 	public void saveFile(){
 		//checks to see if all the fields are formatted correctly. Then, if so, writes to the specified file.
 		String[] toWrite=new String[18];
+		String issues="";
+		boolean isValid=true;
 		
-		//
-		for(int i=0;i!=5;i++){
-			toWrite[i]=characterFields[7+i].getText();
+		System.out.println(characterFields[6].getText());
+
+		
+		for(int i=0; i!=5; i++){
+			toWrite[i]=characterFields[i+7].getText();
+			//System.out.println(toWrite[i]);
 		}
 		
-		JOptionPane.showMessageDialog(null, "File Save Complete");
+		//this loop builds the armor values within an array of text, identical to how the main program reads it.
+		for(int i=5;i!=14;i++){
+			toWrite[i]="";
+			for(int f=0;f!=6;f++){
+				toWrite[i]+=equipmentFields[i-5][9+f].getText()+"/";
+				
+				//this will test to make sure every parameter is actually a number. It does accept doubles, since the game does.
+				try{
+					double x=Double.parseDouble(equipmentFields[i-5][f+9].getText());
+				}
+				catch(Exception e){
+					issues+="Issue with parameter "+equipStats[f]+" for item "+equipmentFields[i-5][2].getText()+".\n";
+					isValid=false;
+					//System.out.println("Issue with parameter "+equipStats[f]+" for item "+equipmentFields[i-5][2].getText()+".");
+				}
+
+			}
+			toWrite[i]+=equipmentFields[i-5][2].getText();
+			//System.out.println(toWrite[i]);
+		}
+		
+		//this loop builds the weapon values within an array of text, identical to how the main program reads it.
+		for(int i=0;i!=2;i++){
+			toWrite[14+(i*2)]="";
+			for(int g=23;g!=27;g++){
+				toWrite[14+(i*2)]+=weaponFields[i][g].getText()+"/";
+				
+				try{
+					double x=Double.parseDouble(weaponFields[i][g].getText());
+				}
+				catch(Exception e){
+					issues+="Issue with parameter "+weaponStats[g-23]+" for item "+weaponFields[i][2].getText()+".\n";
+					isValid=false;
+				}
+			}
+			//System.out.println(toWrite[14+(i*2)]);
+			
+			toWrite[15+(i*2)]="";
+			for(int f=9;f!=15;f++){
+				toWrite[15+(i*2)]+=weaponFields[i][f].getText()+"/";
+				
+				try{
+					double x=Double.parseDouble(weaponFields[i][f].getText());
+				}
+				catch(Exception e){
+					issues+="Issue with parameter "+equipStats[f-9]+" for item "+weaponFields[i][2].getText()+".\n";
+					isValid=false;
+				}
+			}
+			toWrite[15+(i*2)]+=weaponFields[i][2].getText();
+			//System.out.println(toWrite[15+(i*2)]);
+			
+		}
+		
+		//System.out.println(issues);
+		
+		//for(int i=0;i!=18;i++){
+		//	System.out.println(toWrite[i]);
+		//}
+		
+		displayErrors(issues);
+		if(isValid){
+			writeFile(toWrite, characterFields[6].getText());
+			JOptionPane.showMessageDialog(null, "File Save Complete");
+		}
+		else{
+			JOptionPane.showMessageDialog(null, "Please see the error log for a list of invalid parameters.");
+		}
 	}
 }
