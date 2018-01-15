@@ -393,6 +393,7 @@ public class EntityEditor extends IO{
 	/**
 	 * public void saveFile - saves the current entity a file. Will only save if it has been formatted correctly.
 	 */
+	@SuppressWarnings("unused")
 	public void saveFile(){
 		//checks to see if all the fields are formatted correctly. Then, if so, writes to the specified file.
 		String[] toWrite=new String[18];
@@ -442,6 +443,23 @@ public class EntityEditor extends IO{
 					isValid=false;
 				}
 			}
+			
+			String typesOfPain="";
+			
+			if(damageTypes[i][0].isSelected()){
+				typesOfPain+="b";
+			}
+			if(damageTypes[i][1].isSelected()){
+				typesOfPain+="p";
+			}
+			if(damageTypes[i][2].isSelected()){
+				typesOfPain+="s";
+			}
+			if(damageTypes[i][3].isSelected()){
+				typesOfPain+="t";
+			}
+			
+			toWrite[14+(i*2)]+=typesOfPain;
 			//System.out.println(toWrite[14+(i*2)]);
 			
 			toWrite[15+(i*2)]="";
