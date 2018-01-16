@@ -62,6 +62,7 @@ public class EntityEditor extends IO{
 	public void createEditor(){
 		createEditorGUI();
 		initFields();
+		createErrorBox();
 		Editor.setVisible(true);
 	}
 	
@@ -84,7 +85,7 @@ public class EntityEditor extends IO{
 		Editor=new JFrame("Entity Editor - "+fileName);
 		Editor.getContentPane();
 		Editor.setLayout(null);
-		Editor.setDefaultCloseOperation(3); //2 means just the window closes; 3 means the entire programs ends.
+		Editor.setDefaultCloseOperation(2); //2 means just the window closes; 3 means the entire programs ends.
 		Editor.setResizable(false);
 		Editor.setPreferredSize(new Dimension(1325,450));
 		Editor.pack();
@@ -312,6 +313,7 @@ public class EntityEditor extends IO{
 		saveButton.setBounds(25, 350, 200, 25);
 		saveButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("pushed");
 				File file=new File("");
 				String sep=System.getProperty("file.separator");
 				file=new File(file.getAbsolutePath()+String.format("%sresources%sentities%s"+characterFields[6].getText(), sep, sep, sep)); 
@@ -323,6 +325,9 @@ public class EntityEditor extends IO{
 			        else {
 			           JOptionPane.showMessageDialog(null, "File save cancelled.");
 			        }
+				}
+				else{
+					saveFile();
 				}
 			}
 		});

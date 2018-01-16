@@ -82,6 +82,9 @@ public class IO {
 		try{
 			String sep=System.getProperty("file.separator");
 			file=findLocation(file,String.format("%sresources%sentities%s"+fileName, sep, sep, sep));
+			if(file.createNewFile()){
+				System.out.println("Filed created succesfully");
+			}
 			fileWriter=new FileWriter(file);
 			writer=new BufferedWriter(fileWriter);
 			for(int i=0;i!=toWrite.length;i++){
