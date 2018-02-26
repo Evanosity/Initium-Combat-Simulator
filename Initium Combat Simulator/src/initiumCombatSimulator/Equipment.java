@@ -13,10 +13,14 @@ public class Equipment {
 	private String equipmentSlot;
 	private int dexPen;
 	private double blockChance;
+	private double storedBC;
 	private double damageReduction;
 	private double bludgeMod;
 	private double pierceMod;
 	private double slashMod;
+	
+	private int dura=-1;
+	private int ogDura=-1;
 	
 	/**
 	 * public Equipment - this is the main constructor for the class.
@@ -39,6 +43,9 @@ public class Equipment {
 			base=base.substring(base.indexOf("/")+1, base.length());
 			//System.out.println(blockChance);
 			
+			//for the dura.
+			storedBC=blockChance;
+			
 			damageReduction=Double.parseDouble(base.substring(0, base.indexOf("/")));
 			base=base.substring(base.indexOf("/")+1, base.length());
 			//System.out.println(damageReduction);
@@ -54,11 +61,19 @@ public class Equipment {
 			slashMod=Double.parseDouble(base.substring(0, base.indexOf("/")));
 			base=base.substring(base.indexOf("/")+1, base.length());
 			//System.out.println(slashMod);
+			
+			if(base.indexOf("/")!=-1){
+				dura=Integer.parseInt(base.substring(0, base.indexOf("/")));
+				base=base.substring(base.indexOf("/")+1, base.length());
+				System.out.println(dura);
+				ogDura=dura;
+			}
 
 			name=base;
 			//System.out.println(name);
 		}
 		catch(Exception e){
+			e.printStackTrace();
 			output.append("An issue occured when generating the equipment piece '"+slot+"' for character "+thisEntity.getName()+". Please double check your source file.\n\n");
 		}
 	}
@@ -161,6 +176,13 @@ public class Equipment {
 		double roll=Math.random();
 		if((int)(roll*100)>blockChance){
 			return false;
+		}
+		//if it blocks, subtract one dura.
+		if(dura>=0){
+			dura--;
+			if(dura<0){
+				blockChance=0;
+			}
 		}
 		return true;
 	}
@@ -291,12 +313,29 @@ public class Equipment {
 	}
 	
 	/**
+	 * public int getDura - returns the max durability of the item.
+	 * @return ogDura - the original maximum durability.
+	 */
+	public int getDura(){
+		return ogDura;
+	}
+	
+	/**
+	 * public void resetDura - resets the durability of the item to its original maximum.
+	 */
+	public void resetDura(){
+		dura=ogDura;
+		blockChance=storedBC;
+	}
+	
+	/**
 	 * public void setName - changes the name for this piece of equipment - **WARNING** - may break some stuff. NOT recommended unless you are using upon initialization.
 	 * @param newName - the new name.
 	 */
 	public void setName(String newName){
 		name=newName;
 	}
+	
 	/**
 	 * public String getName - returns the name of the equipment.
 	 * @return name - self explanatory.

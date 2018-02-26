@@ -231,6 +231,11 @@ public class Entity extends IO{
 		inte[1]=inte[0];
 		hp[1]=hp[0];
 		applyDexPenalty();
+		
+		//reset the dura for all armor pieces
+		for(int i=0;i!=armor.length;i++){
+			armor[i].resetDura();
+		}
 	}
 	
 	/**
