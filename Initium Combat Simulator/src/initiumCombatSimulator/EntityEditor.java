@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 
 /**
  * EntityEditor class - this class provides a GUI for a user-friendly way to edit and create entities.
+ * This entire class is a mess. That being said, it works. It might get a reader friendly rewrite eventually. Who knows.
  * @author Evanosity
  *
  */
@@ -37,23 +38,21 @@ public class EntityEditor extends IO{
 	
 	/**
 	 * constructor EntityEditor - initializes a blank entityeditor, ripe for the user to fill.
-	 * @param output - instant error reporting
 	 */
-	public EntityEditor(JTextArea output) {
-		super(output);
+	public EntityEditor() {
+		super(outputError);
 		fileName="";
 		createEditor();
 	}
 	
 	/**
 	 * constructor EntityEditor - initializes a already filled entityeditor, so that the user can edit a pre-existing file
-	 * @param output - instant error reporting
-	 * @param fileName - the file to pull from. Must be in the director \resources\entities\fileName.txt
+	 * @param fileName - the file to pull from. Must be in the directory \resources\entities\fileName.txt
 	 */
-	public EntityEditor(JTextArea output, String fileToLoad){
-		super(output);
+	public EntityEditor(String fileToLoad){
+		super(outputError);
 		fileName=fileToLoad;
-		createEditor(readFile(fileName));
+		createEditor(readFile(fileName, "entities"));
 	}
 	
 	/**

@@ -18,6 +18,8 @@ public class Entity extends IO{
 	private Armor[] armor;
 	private Weapon lefthand;
 	private Weapon righthand;
+	private Buff[] buffs;
+	private boolean valid;
 	//private JTextArea writeTo;
 	
 	/**
@@ -27,14 +29,13 @@ public class Entity extends IO{
 	 */
 	public Entity(String fileLocation, JTextArea output){
 		super(output);
-		String[] base=readFile(fileLocation);
+		String[] base=readFile(fileLocation, "entities");
 		try{
 			fileName=fileLocation.substring(fileLocation.indexOf("/"), fileLocation.length());
 		}
 		catch(Exception e){
 			fileName=fileLocation;
 		}
-		System.out.println(fileName);
 		createEntity(base, output);
 	}
 	
@@ -77,13 +78,15 @@ public class Entity extends IO{
 	 * @param base - A string array representation of the Entity we are going to create.
 	 */
 	private void createEntity(String[] base, JTextArea outputZone){
+		valid=true;
 		try{
-			name=base[0];
 			str=new double[2];
 			dex=new double[2];
 			inte=new double[2];
 			hp=new int[2];
 			armor=new Armor[9];
+			
+			name=base[0];
 			str[0]=Double.parseDouble(base[1]);
 			str[1]=Double.parseDouble(base[1]);
 			dex[0]=Double.parseDouble(base[2]);
@@ -106,14 +109,23 @@ public class Entity extends IO{
 		}
 		catch(Exception e){
 			outputZone.append("There was an error when generating the stats for entity "+getName()+". Please double check your file.\n\n");
+			valid=false;
 		}
-
+		applyDexPenalty();
+		applyStrMod();
+		applyIntMod();
+		 
+		//buffs=new Buff[base.length-17];
+		//for(int i=0;i!=buffs.length;i++){
+		//	buffs[i]=new Buff(base[i+18], outputZone);
+		//	applyBuff(buffs[i]);
+		//}
 	}
 	
 	/**
 	 * public Armor getArmor - this method returns an armor object based on what "slot" it is in.
 	 * @param slot - String representation of the slot we are looking for.
-	 * @return the armor object with the correct slot.
+	 * @return the equipment object corresponding to the given slot.
 	 */
 	public Armor getArmor(String slot){
 		for(int i=0;i!=armor.length;i++){
@@ -153,12 +165,39 @@ public class Entity extends IO{
 	}
 	
 	/**
+	 * public void applyStrMod - Calculates the strength of the Entity after applying the strength modifier of all equipment.
+	 */
+	public void applyStrMod(){
+		int toApply=0;
+		for(int i=0;i!=armor.length;i++){
+			toApply=1-(armor[i].getStrMod()/100);
+			str[1]=str[1]*toApply;
+		}
+		str[1]=str[1]*(1-lefthand.getStrMod()/100);
+		str[1]=str[1]*(1-righthand.getStrMod()/100);
+	}
+	
+	/**
+	 * public void applyStrMod - Calculates the strength of the Entity after applying the strength modifier of all equipment.
+	 */
+	public void applyIntMod(){
+		int toApply=0;
+		for(int i=0;i!=armor.length;i++){
+			toApply=1-(armor[i].getIntMod()/100);
+			inte[1]=inte[1]*toApply;
+		}
+		inte[1]=inte[1]*(1-lefthand.getIntMod()/100);
+		inte[1]=inte[1]*(1-righthand.getIntMod()/100);
+	}
+	
+	/**
 	 * public double rollDex - calculates a random number between 0 and the entities dexterity, then returns it.
 	 * @return the dexterity roll.
 	 */
 	public double rollDex(){
 		double rolled=0;
 		rolled=Math.random()*dex[1];
+		//System.out.println("Dex Roll: "+rolled);
 		return rolled;
 	}
 	
@@ -185,6 +224,10 @@ public class Entity extends IO{
 			return getArmor("gloves");
 		}
 		return null;
+	}
+	
+	public void applyBuff(Buff buff){
+		
 	}
 	
 	/**
@@ -363,5 +406,34 @@ public class Entity extends IO{
 	 */
 	public String getName(){
 		return name;
+	}
+	/**
+	 * public void setName - sets the name of the entity.
+	 * @param newName - the new name of the entity
+	 */
+	public void setName(String newName){
+		name=newName;
+	}
+	/**
+	 * public String getFileName - returns the name of the file where the entity is stored.
+	 * @return the file name.
+	 */
+	public String getFileName(){
+		return fileName;
+	}
+	
+	/**
+	 * public boolean getValid
+	 * @return true if the entity compiled properly, false otherwise.
+	 */
+	public boolean getValid(){
+		return valid;
+	}
+	/**
+	 * public void setValid
+	 * @param validity - the new value of validity
+	 */
+	public void setValid(boolean validity){
+		valid=validity;
 	}
 }

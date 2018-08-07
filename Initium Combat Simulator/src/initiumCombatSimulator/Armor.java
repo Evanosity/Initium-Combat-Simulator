@@ -3,7 +3,7 @@ package initiumCombatSimulator;
 import javax.swing.JTextArea;
 
 /**
- * Current has no function.
+ * Currently has no function.
  * @author Evanosity
  * @date June 14 2017
  */

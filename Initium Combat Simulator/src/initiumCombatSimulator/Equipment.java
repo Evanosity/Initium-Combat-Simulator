@@ -12,6 +12,8 @@ public class Equipment {
 	private String name;
 	private String equipmentSlot;
 	private int dexPen;
+	private int strMod;
+	private int intMod;
 	private double blockChance;
 	private double storedBC;
 	private double damageReduction;
@@ -34,6 +36,7 @@ public class Equipment {
 			//System.out.println("\n\n");
 			//System.out.println(base);
 			equippedTo=thisEntity;
+			
 			//what each of these snippets does is find the substring of the first parameter, record it, remove it, and then go on to the next.
 			dexPen=Integer.parseInt(base.substring(0, base.indexOf("/")));
 			base=base.substring(base.indexOf("/")+1, base.length());
@@ -65,15 +68,28 @@ public class Equipment {
 			if(base.indexOf("/")!=-1){
 				dura=Integer.parseInt(base.substring(0, base.indexOf("/")));
 				base=base.substring(base.indexOf("/")+1, base.length());
-				System.out.println(dura);
 				ogDura=dura;
 			}
-
+			if(base.indexOf("/")!=-1){
+				strMod=Integer.parseInt(base.substring(0, base.indexOf("/")));
+				base=base.substring(base.indexOf("/")+1, base.length());
+			}
+			else{
+				strMod=0;
+			}
+			if(base.indexOf("/")!=-1){
+				intMod=Integer.parseInt(base.substring(0, base.indexOf("/")));
+				base=base.substring(base.indexOf("/")+1, base.length());
+			}
+			else{
+				intMod=0;
+			}
+			
 			name=base;
 			//System.out.println(name);
 		}
 		catch(Exception e){
-			e.printStackTrace();
+			thisEntity.setValid(false);
 			output.append("An issue occured when generating the equipment piece '"+slot+"' for character "+thisEntity.getName()+". Please double check your source file.\n\n");
 		}
 	}
@@ -83,7 +99,24 @@ public class Equipment {
 	 * @return the formatted string.
 	 */
 	public String toString(){
-		return getDexPen()+"/"+getBlockChance()+"/"+getDamageReduction()+"/"+getBludgeMod()+"/"+getPierceMod()+"/"+getSlashMod()+"/"+name;
+		String toReturn="";
+		toReturn= getDexPen()
+				+"/"+getBlockChance()
+				+"/"+getDamageReduction()
+				+"/"+getBludgeMod()
+				+"/"+getPierceMod()
+				+"/"+getSlashMod();
+		
+		if(dura>-1){
+			toReturn+=dura;
+		}
+		if(strMod!=0){
+			toReturn+=strMod;
+		}
+		if(intMod!=0){
+			toReturn+=intMod;
+		}
+		return toReturn+="/"+name;
 	}
 	
 	/**
@@ -220,7 +253,7 @@ public class Equipment {
 	}
 	
 	/**
-	 * public void setDexPen - sets the dexterity penalty of this piece of equipment
+	 * public void setDexPen - sets the dexterity penalty for this piece of equipment
 	 * @param newDexPen - the new dex penalty
 	 */
 	public void setDexPen(int newDexPen){
@@ -228,11 +261,41 @@ public class Equipment {
 	}
 	
 	/**
-	 * public int getDexPen - returns the dexterity penalty of this piece of equipment
+	 * public int getDexPen - returns the dexterity penalty for this piece of equipment
 	 * @return dexPen - the dex pen of this equipment
 	 */
 	public int getDexPen(){
 		return dexPen;
+	}
+	
+	/**
+	 * public void setStrMod - sets the strength modifier for this piece of equipment
+	 * @param newStrMod - the new strength modifier
+	 */
+	public void setStrMod(int newStrMod){
+		strMod=newStrMod;
+	}
+	/**
+	 * public int getStrMod - returns the strength modifier for this piece of equipment
+	 * @return - the str modifier of this equipment
+	 */
+	public int getStrMod(){
+		return strMod;
+	}
+	
+	/**
+	 * public void setIntMod - sets the intelligence modifier for this piece of equipment
+	 * @param newIntMod - the new int modifier for this piece of equipment
+	 */
+	public void setIntMod(int newIntMod){
+		intMod=newIntMod;
+	}
+	/**
+	 * public void getIntMod - returns the intelligence modifier for this piece of equipment
+	 * @return the int modifier for this thing
+	 */
+	public int getIntMod(){
+		return intMod;
 	}
 	
 	/**

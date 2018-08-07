@@ -26,34 +26,32 @@ public class Weapon extends Equipment{
 	 */
 	public Weapon(String offenses, String defenses, Entity thisEntity, String slot, JTextArea output){
 		super(defenses, thisEntity, slot, output);
-		System.out.println("\n\n");
+		
+		//this determines the stats of the weapon
 		numberOfDice=Integer.parseInt(offenses.substring(0, offenses.indexOf("/")));
 		offenses=offenses.substring(offenses.indexOf("/")+1, offenses.length());
-		//System.out.println(numberOfDice);
 		
 		diceSides=Integer.parseInt(offenses.substring(0, offenses.indexOf("/")));
 		offenses=offenses.substring(offenses.indexOf("/")+1, offenses.length());
-		//System.out.println(diceSides);
 		
 		critMultiplier=Double.parseDouble(offenses.substring(0, offenses.indexOf("/")));
 		offenses=offenses.substring(offenses.indexOf("/")+1, offenses.length());
-		//System.out.println(critMultiplier);
 		
 		critChance=Double.parseDouble(offenses.substring(0, offenses.indexOf("/")));
 		offenses=offenses.substring(offenses.indexOf("/")+1, offenses.length());
-		//System.out.println(critChance);
 		
-		String damageTypes=offenses.substring(0, offenses.length());
-		if(damageTypes.contains("p")||damageTypes.contains("P")){
+		//this determines the damage type of the weapon
+		String damageTypes=offenses.substring(0, offenses.length()).toLowerCase();
+		if(damageTypes.contains("p")){
 			piercing=true;
 		}
-		if(damageTypes.contains("b")||damageTypes.contains("B")){
+		if(damageTypes.contains("b")){
 			bludgeoning=true;
 		}
-		if(damageTypes.contains("s")||damageTypes.contains("S")){
+		if(damageTypes.contains("s")){
 			slashing=true;
 		}
-		if(damageTypes.contains("t")||damageTypes.contains("T")){
+		if(damageTypes.contains("t")){
 			isTwoHanded=true;
 		}
 	}
@@ -64,29 +62,6 @@ public class Weapon extends Equipment{
 	 */
 	public String weaponToString(){
 		return numberOfDice+"/"+diceSides+"/"+critMultiplier+"/"+critChance+"/"+getDamageTypes();
-	}
-	
-	/**
-	 * public void setNumberOfDice - sets the number of dice to be rolled when calculating damage.
-	 * @param newNOD - the new number of dice.
-	 */
-	public void setNumberOfDice(int newNOD){
-		numberOfDice=newNOD;
-	}
-	/**
-	 * public void getNumberOfDice - returns the number of dice to be rolled when calculating damage.
-	 * @return numberOfDice - self explanatory.
-	 */
-	public int getNumberOfDice(){
-		return numberOfDice;
-	}
-	
-	/**
-	 * public boolean getIsTwoHanded - returns wether or not the weapon is a two handed weapon. It is not possible to change this variable, as it would cause unnecesary complications.
-	 * @return isTwoHanded - true if the weapon is two handed, false if it is not.
-	 */
-	public boolean getIsTwoHanded(){
-		return isTwoHanded;
 	}
 	
 	/**
@@ -108,6 +83,29 @@ public class Weapon extends Equipment{
 	}
 	
 	/**
+	 * public boolean getIsTwoHanded - returns wether or not the weapon is a two handed weapon. It is not possible to change this variable, as it would cause unnecesary complications.
+	 * @return isTwoHanded - true if the weapon is two handed, false if it is not.
+	 */
+	public boolean getIsTwoHanded(){
+		return isTwoHanded;
+	}
+	
+	/**
+	 * public void setNumberOfDice - sets the number of dice to be rolled when calculating damage.
+	 * @param newNOD - the new number of dice.
+	 */
+	public void setNumberOfDice(int newNOD){
+		numberOfDice=newNOD;
+	}
+	/**
+	 * public void getNumberOfDice - returns the number of dice to be rolled when calculating damage.
+	 * @return numberOfDice - self explanatory.
+	 */
+	public int getNumberOfDice(){
+		return numberOfDice;
+	}
+	
+	/**
 	 * public void setDiceSides - sets the number of sides on each dice, for the damage roll.
 	 * @param newDS - the new number of sides.
 	 */
@@ -121,6 +119,7 @@ public class Weapon extends Equipment{
 	public int getDiceSides(){
 		return diceSides;
 	}
+
 	/**
 	 * public void setCritChance - sets the critical hit chance for this weapon.
 	 * @param newCC - the new critical hit chance.
@@ -194,7 +193,8 @@ public class Weapon extends Equipment{
 	 */
 	public boolean dualWield(){
 		double test=Math.random();
-		if((int)(test*100)<=critChance){
+		//System.out.println("Dual Wield Roll: "+test*100+" compared to "+getCritChanceAfterInt());
+		if((int)(test*100)<=getCritChanceAfterInt()){
 			return true;
 		}
 		return false;
