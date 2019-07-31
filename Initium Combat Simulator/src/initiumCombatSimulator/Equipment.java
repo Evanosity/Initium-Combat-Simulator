@@ -245,7 +245,7 @@ public class Equipment {
 	}
 	
 	/**
-	 * public Entity getEquippedTo - method for retrieving which entity this equipment is attatched to
+	 * public Entity getEquippedTo - method for retrieving which entity this equipment is attached to
 	 * @return equippedTo - the entity which this is equipped to
 	 */
 	public Entity getEquippedTo(){
@@ -264,7 +264,7 @@ public class Equipment {
 	 * public int getDexPen - returns the dexterity penalty for this piece of equipment
 	 * @return dexPen - the dex pen of this equipment
 	 */
-	public int getDexPen(){
+	public double getDexPen(){
 		return dexPen;
 	}
 	
