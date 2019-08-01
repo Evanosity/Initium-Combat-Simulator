@@ -165,12 +165,13 @@ public class Weapon extends Equipment{
 	 * @return the damage to be dealt.
 	 */
 	public int rollDamage(){
+		if(numberOfDice!=0) {
 		int damage=0;
 		for(int i=0;i!=numberOfDice;i++){
 			int temp=(int)(Math.random()*diceSides)+1;
-			//System.out.println(temp);
 			damage+=temp;
 		}
+		
 		double critX=Math.random();
 		if((int)(critX*100) <= (int)getCritChanceAfterInt()){
 			//System.out.println("CRIT!");
@@ -185,6 +186,9 @@ public class Weapon extends Equipment{
 			damage+=(strengthDamage*2);
 		}
 		return damage;
+		} else {
+			return 0;
+		}
 	}
 	
 	/**
