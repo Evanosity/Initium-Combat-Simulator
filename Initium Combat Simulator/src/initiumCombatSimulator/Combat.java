@@ -152,7 +152,7 @@ public class Combat {
 		}
 	}
 	
-	//public int rollDamage(){
-	//	return 0;
-	//}
+	public int rollDamage(){
+		return 0;
+	}
 }

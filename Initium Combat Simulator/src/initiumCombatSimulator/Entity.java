@@ -105,7 +105,7 @@ public class Entity extends IO{
 			armor[7]=new Armor(base[12],this, "rightring", outputZone);
 			armor[8]=new Armor(base[13],this, "neck", outputZone);
 			lefthand=new Weapon(base[14],base[15],this, "lefthand", outputZone);
-			righthand=new Weapon(base[16],base[17],this, "righthand", outputZone);		
+			righthand=new Weapon(base[16],base[17],this, "righthand", outputZone);
 		}
 		catch(Exception e){
 			outputZone.append("There was an error when generating the stats for entity "+getName()+". Please double check your file.\n\n");
@@ -115,9 +115,11 @@ public class Entity extends IO{
 		applyStrMod();
 		applyIntMod();
 		 
-		for(int i=18;i!=base.length-1;i++) {
-			applyBuff(base[i],outputZone);
-		}
+		//buffs=new Buff[base.length-17];
+		//for(int i=0;i!=buffs.length;i++){
+		//	buffs[i]=new Buff(base[i+18], outputZone);
+		//	applyBuff(buffs[i]);
+		//}
 	}
 	
 	/**
@@ -224,39 +226,8 @@ public class Entity extends IO{
 		return null;
 	}
 	
-	/**
-	 * Fuck
-	 * @param buff
-	 */
-	public void applyBuff(String buff, JTextArea output){
-		System.out.println(str[1]);
-		System.out.println(dex[1]);
-		System.out.println(inte[1]);
-		System.out.println();
+	public void applyBuff(Buff buff){
 		
-
-		Buff apply=new Buff(buff,output);
-		for(int i=0;i!=apply.getSize()-2;i++){
-			String[]temp=apply.getInfo(i);
-			
-			System.out.println(temp[0]);
-			System.out.println(temp[1]);
-			System.out.println(temp[2]);
-			System.out.println();
-
-
-			if(temp[1].equals("+")){
-				applyBuffFixed(temp[0],Integer.parseInt(temp[2]));
-			}
-			else if(temp[1].equals("%")){
-				applyBuffPercent(temp[0],Integer.parseInt(temp[2]));
-			}
-		}
-		System.out.println(str[1]);
-		System.out.println(dex[1]);
-		System.out.println(inte[1]);
-		System.out.println();
-
 	}
 	
 	/**
@@ -264,14 +235,14 @@ public class Entity extends IO{
 	 * @param type - the stat to increase with this buff. 0 is strength, 1 is dex, 2 is int.
 	 * @param increase - the number of points you want to increase the specified stat by EG: 2 will increase the specified stat by 2.
 	 */
-	public void applyBuffFixed(String type, int increase){
-		if(type.toLowerCase().equals("str")){
+	public void applyBuffFixed(int type, int increase){
+		if(type==0){
 			str[1]+=increase;
 		}
-		else if(type.toLowerCase().equals("dex")){
+		else if(type==1){
 			dex[1]+=increase;
 		}
-		else if(type.toLowerCase().equals("int")){
+		else if(type==2){
 			inte[1]+=increase;
 		}
 	}
@@ -281,15 +252,15 @@ public class Entity extends IO{
 	 * @param type - the stat to increase with this buff. 0 is strength, 1 is dex, 2 is int.
 	 * @param increase - the percent you want to increase this stage by. EG: 0.13 will increase the specified stat by 13%.
 	 */
-	public void applyBuffPercent(String type, double increase){
-		if(type.toLowerCase().equals("str")){
-			str[1]=str[1]*(1+(increase/100));
+	public void applyBuffPercent(int type, double increase){
+		if(type==0){
+			str[1]=str[1]*(1+increase);
 		}
-		else if(type.toLowerCase().equals("dex")){
-			dex[1]=dex[1]*(1+(increase/100));
+		else if(type==1){
+			dex[1]=dex[1]*(1+increase);
 		}
-		else if(type.toLowerCase().equals("int")){
-			inte[1]=inte[1]*(1+(increase/100));
+		else if(type==2){
+			inte[1]=inte[1]*(1+increase);
 		}
 	}
 	

@@ -44,7 +44,7 @@ public class Main {
 		GUI.setResizable(false);
 		GUI.setPreferredSize(new Dimension(400,600));
 		GUI.pack();
-				
+		
 		//Find and set the icon for the window
 		String sep=System.getProperty("file.separator");
 		String iconName="Blizzard";
