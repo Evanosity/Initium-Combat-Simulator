@@ -161,13 +161,23 @@ public class Entity extends IO{
 	 * public void applyDexPenalty - Calculates the dexterity of the Entity after applying the dexterity penalty of all equipment.
 	 */
 	public void applyDexPenalty(){
-		int toApply=0;
+		double toApply=0;
 		for(int i=0;i!=armor.length;i++){
-			toApply=1-(armor[i].getDexPen()/100);
-			dex[1]=dex[1]*toApply;
+			//Stores the total amount of dexPen from armour.
+			toApply += armor[i].getDexPen();
 		}
-		dex[1]=dex[1]*(1-lefthand.getDexPen()/100);
-		dex[1]=dex[1]*(1-righthand.getDexPen()/100);
+		
+		/**
+		 * Since only the dexterity penalty from armour has been stored into the variable toApply, we now also need to add the 
+		 * lefthand and righthand dexterity penalties to toApply.
+		 */
+		toApply += lefthand.getDexPen() + righthand.getDexPen();
+		
+		//Applies the penalty to entity's dex.
+		dex[1]=dex[1]*(1-toApply/100);
+		
+		//Initium rounds the stats in this manner, so we should do the same.
+		dex[1] = (double) Math.floor(dex[1] * 100) / 100;
 	}
 	
 	/**

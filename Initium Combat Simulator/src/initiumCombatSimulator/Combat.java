@@ -61,11 +61,11 @@ public class Combat {
 		output.append(player.getName()+" wins: "
 				+ playerWins+"\n\n"
 				+ player.getName()+" win %: "
-				+ (double)playerWins/runs+"\n\n"
+				+ (((double)playerWins/runs)*100)+"\n\n"
 				+ npc.getName()+" wins: "
 				+ npcWins+"\n\n"
 				+ npc.getName()+" win %: "
-				+ (double)npcWins/runs+"\n\n"
+				+ (((double)npcWins/runs)*100)+"\n\n"
 				+ "Average Turns: "+turns/runs+"\n\n"
 				+ "Total Runs: "+runs+"\n\n"
 				+ "");
@@ -85,9 +85,9 @@ public class Combat {
 			if(hand==0){
 				//System.out.println("\n\n"+Attacker.getName()+" swinging with: "+Attacker.getWeapon("lefthand").getName());
 				swinger=Attacker.getWeapon("lefthand");
-				if(Attacker.getWeapon("righthand").dualWield()){
-					attack(1, Attacker, Defender);
-				}
+				//if(Attacker.getWeapon("righthand").dualWield()){
+				//	attack(1, Attacker, Defender);
+				//}
 			}
 			else if(hand==1){
 				//System.out.println("\n\n"+Attacker.getName()+"swinging with: "+Attacker.getWeapon("righthand").getName());
