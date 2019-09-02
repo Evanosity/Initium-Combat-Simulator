@@ -85,9 +85,9 @@ public class Combat {
 			if(hand==0){
 				//System.out.println("\n\n"+Attacker.getName()+" swinging with: "+Attacker.getWeapon("lefthand").getName());
 				swinger=Attacker.getWeapon("lefthand");
-				//if(Attacker.getWeapon("righthand").dualWield()){
-				//	attack(1, Attacker, Defender);
-				//}
+				if(Attacker.getWeapon("righthand").dualWield()){
+					attack(1, Attacker, Defender);
+				}
 			}
 			else if(hand==1){
 				//System.out.println("\n\n"+Attacker.getName()+"swinging with: "+Attacker.getWeapon("righthand").getName());
