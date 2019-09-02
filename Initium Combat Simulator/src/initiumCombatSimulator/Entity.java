@@ -55,7 +55,7 @@ public class Entity extends IO{
 	 * @param fileName - the name of the file to write to. Generally, it should be the name of the entity to avoid confusion but it could be anything.
 	 */
 	public void writeToFile(String fileName){
-		String[]toWrite=new String[18];
+		String[]toWrite=new String[18+buffs.length];
 		toWrite[0]=name;
 		toWrite[1]=Double.toString(str[0]);
 		toWrite[2]=Double.toString(dex[0]);
@@ -68,6 +68,12 @@ public class Entity extends IO{
 		toWrite[15]=lefthand.toString();
 		toWrite[16]=righthand.weaponToString();
 		toWrite[17]=righthand.toString();
+		
+		if(toWrite.length!=18) {
+			for(int i=0;i!=buffs.length;i++) {
+				toWrite[17+1]=buffs[i].getName();
+			}
+		}
 		
 		writeFile(toWrite, fileName);
 	}
@@ -114,9 +120,11 @@ public class Entity extends IO{
 		applyDexPenalty();
 		applyStrMod();
 		applyIntMod();
-		 
+		
+		buffs=new Buff[base.length-18];
+		
 		for(int i=18;i!=base.length-1;i++) {
-			applyBuff(base[i],outputZone);
+			loadBuff(base[i],outputZone,i-18);
 		}
 	}
 	
@@ -228,16 +236,16 @@ public class Entity extends IO{
 	 * Fuck
 	 * @param buff
 	 */
-	public void applyBuff(String buff, JTextArea output){
+	public void loadBuff(String buff, JTextArea output, int place){
 		System.out.println(str[1]);
 		System.out.println(dex[1]);
 		System.out.println(inte[1]);
 		System.out.println();
 		
 
-		Buff apply=new Buff(buff,output);
-		for(int i=0;i!=apply.getSize()-2;i++){
-			String[]temp=apply.getInfo(i);
+		buffs[place]=new Buff(buff,output);
+		for(int i=0;i!=buffs[place].getSize()-2;i++){
+			String[]temp=buffs[place].getInfo(i);
 			
 			System.out.println(temp[0]);
 			System.out.println(temp[1]);

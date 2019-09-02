@@ -5,7 +5,7 @@ import javax.swing.JTextArea;
 /**
  * I dont really know, but I know that it works.
  * @author Evan
- *
+ * @date September 2/2019
  */
 public class Buff extends IO{
 	private String name;
@@ -53,5 +53,9 @@ public class Buff extends IO{
 	 */
 	public String[]getInfo(int x){
 		return bonuses[x+1];
+	}
+	
+	public String getName() {
+		return name;
 	}
 }
