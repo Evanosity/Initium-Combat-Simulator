@@ -151,8 +151,4 @@ public class Combat {
 			}
 		}
 	}
-	
-	//public int rollDamage(){
-	//	return 0;
-	//}
 }

@@ -55,8 +55,67 @@ public class Main {
 		runSim=new JButton("Run Simulation");
 		runSim.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
+				
+				int runs=0;
+				boolean attackerValid=false;
+				boolean defenderValid=false;
+				
+				//this 
+				if(isInteger(numberOfRuns.getText())) {
+					runs=Integer.parseInt(numberOfRuns.getText());
+				}
+				if(runs<=0) {
+					results.append("That number of runs doesn't make sense...\n\n");
+				}
+				else {
+					Entity attacker=null;
+					Entity defender=null;
+					
+					//checks if the attacker's string is a number. if yes, pulls the information from initium itself
+					if(isInteger(attackerFile.getText())) {
+						//This is where the code for the web integration will go.
+					}
+					
+					//if its not a number, we assume that it's a file location.
+					else {
+						String[]pathAttacker={"resources","entities",attackerFile.getText()};
+						//we try to validate the file
+						if(!IO.validateFile(IO.createPath(pathAttacker,true))){
+							results.append("The file "+IO.createPath(pathAttacker, true)+" does not exist.\n\n");
+						}
+						else {//if the file is valid, we set attackerValid, build the entity and move on.
+							attackerValid=true;
+							attacker=new Entity(attackerFile.getText(), results);
+						}
+					}
+					
+					//checks if the defender's string is a number. if yes, pulls the information from initium itself.
+					if(isInteger(defenderFile.getText())) {
+						//This is where the code for the web integration will go.
+					}
+					else {
+						String[]pathDefender={"resources","entities",defenderFile.getText()};
+						//we try to validate the file
+						if(!IO.validateFile(IO.createPath(pathDefender,true))){
+							results.append("The file "+IO.createPath(pathDefender, true)+" does not exist.\n\n");
+						}
+						else {//if the file is valid, we set defenderValid, build the entity and move on
+							defenderValid=true;
+							defender=new Entity(defenderFile.getText(), results);
+						}
+					}
+					if(attackerValid&&defenderValid) {
+						results.append("Running Simulation. This may take a while...\n\n");
+						Combat Battle=new Combat(attacker, defender, results);
+						Battle.runSim(runs);
+					}
+				}
+				
+				/*
+				//THIS IS THE OLD CODE
 				//this first section validates the number of runs.
 				int runs=0;
+				
 				try{
 					runs=Integer.parseInt(numberOfRuns.getText());
 				}
@@ -71,6 +130,7 @@ public class Main {
 				else{
 					String[]pathAttacker={"resources","entities",attackerFile.getText()};
 					String[]pathDefender={"resources","entities",defenderFile.getText()};
+
 
 					if(IO.validateFile(IO.createPath(pathAttacker,true))&&IO.validateFile(IO.createPath(pathDefender,true))){
 						Entity Attacker=new Entity(attackerFile.getText(), results);
@@ -87,7 +147,7 @@ public class Main {
 					if(!IO.validateFile(IO.createPath(pathDefender,true))){
 						results.append("The file "+IO.createPath(pathDefender, true)+" does not exist.\n\n");
 					}	
-				}
+				}*/
 			}	
 		});
 		runSim.setBounds(100,450,200,100);
@@ -221,5 +281,21 @@ public class Main {
 		GUI.add(editDefender);
 		GUI.add(newEntity);
 		GUI.setVisible(true);
+	}
+	
+	/**
+	 * Tests string to see if it can be converted cleanly to an integer
+	 * For our uses, sees if the user entered a character ID or a file name.
+	 * @param test - the string to test
+	 * @return
+	 */
+	private static boolean isInteger(String test) {
+	    try {
+	        Integer.parseInt(test);
+	        return true;
+	    }
+	    catch(NumberFormatException e) {
+	        return false;
+	    }
 	}
 }

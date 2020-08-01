@@ -121,11 +121,11 @@ public class Entity extends IO{
 		applyStrMod();
 		applyIntMod();
 		
-		buffs=new Buff[base.length-18];
-		
-		for(int i=18;i!=base.length-1;i++) {
-			loadBuff(base[i],outputZone,i-18);
-		}
+		//buffs=new Buff[base.length-18];
+		//
+		//for(int i=18;i!=base.length-1;i++) {
+		//	loadBuff(base[i],outputZone,i-18);
+		//}
 	}
 	
 	/**
