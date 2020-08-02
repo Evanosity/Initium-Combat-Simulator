@@ -72,8 +72,9 @@ public class Main {
 					Entity defender=null;
 					
 					//checks if the attacker's string is a number. if yes, pulls the information from initium itself
-					if(isInteger(attackerFile.getText())) {
-						//This is where the code for the web integration will go.
+					if(isDouble(attackerFile.getText())) {
+						System.out.println("YEET");
+						attacker=new Entity(WebParser.getCharacter(Sensitive.getUsername(),Sensitive.getPassword(),attackerFile.getText()), results);
 					}
 					
 					//if its not a number, we assume that it's a file location.
@@ -90,8 +91,8 @@ public class Main {
 					}
 					
 					//checks if the defender's string is a number. if yes, pulls the information from initium itself.
-					if(isInteger(defenderFile.getText())) {
-						//This is where the code for the web integration will go.
+					if(isDouble(defenderFile.getText())) {
+						defender=new Entity(WebParser.getCharacter(Sensitive.getUsername(),Sensitive.getPassword(), defenderFile.getText()), results);
 					}
 					else {
 						String[]pathDefender={"resources","entities",defenderFile.getText()};
@@ -297,5 +298,15 @@ public class Main {
 	    catch(NumberFormatException e) {
 	        return false;
 	    }
+	}
+	
+	private static boolean isDouble(String test) {
+		try {
+			Double.parseDouble(test);
+			return true;
+		}
+		catch(NumberFormatException e) {
+			return false;
+		}
 	}
 }
