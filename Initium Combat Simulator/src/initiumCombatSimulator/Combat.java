@@ -115,12 +115,13 @@ public class Combat {
 				totalResistance+=(int)bodyArmor.getDamageReduction()*bodyArmor.findWeakSpot(swinger);
 				//System.out.println(bodyArmor.getName()+" blocks.");
 				//System.out.println("totalresistance: "+totalResistance);
-				if(bodyArmor.getSlot().equals("chest")){
-					if(Defender.getArmor("shirt").isBlock()){
-						totalResistance+=(int)Defender.getArmor("shirt").getDamageReduction()*Defender.getArmor("shirt").findWeakSpot(swinger);
-						//System.out.println(Defender.getArmor("shirt").getName()+" blocks.");
-						//System.out.println("totalresistance: "+totalResistance);
-					}
+				
+			}
+			if(bodyArmor.getSlot().equals("chest")){
+				if(Defender.getArmor("shirt").isBlock()){
+					totalResistance+=(int)Defender.getArmor("shirt").getDamageReduction()*Defender.getArmor("shirt").findWeakSpot(swinger);
+					//System.out.println(Defender.getArmor("shirt").getName()+" blocks.");
+					//System.out.println("totalresistance: "+totalResistance);
 				}
 			}
 			

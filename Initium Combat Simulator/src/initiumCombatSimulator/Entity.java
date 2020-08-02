@@ -97,13 +97,12 @@ public class Entity extends IO{
 			for(int i=1;i!=4;i++) {
 				if(base[i].contains("(")){
 					base[i]=base[i].substring(0,base[i].indexOf("("));
-					System.out.println(base[i]);
 				}
 			}
 			
 			//same deal as above, but for hp (49/49->49)
 			if(base[4].contains("/")){
-				base[4]=base[4].substring(0,base[4].indexOf("/"));
+				base[4]=base[4].split("/")[0];
 			}
 			
 			name=base[0];

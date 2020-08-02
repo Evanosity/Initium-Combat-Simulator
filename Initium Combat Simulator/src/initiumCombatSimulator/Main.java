@@ -73,6 +73,7 @@ public class Main {
 					
 					//checks if the attacker's string is a number. if yes, pulls the information from initium itself
 					if(isDouble(attackerFile.getText())) {
+						attackerValid=true;
 						attacker=new Entity(WebParser.getCharacter(Sensitive.getUsername(),Sensitive.getPassword(),attackerFile.getText()), results);
 					}
 					
@@ -91,6 +92,7 @@ public class Main {
 					
 					//checks if the defender's string is a number. if yes, pulls the information from initium itself.
 					if(isDouble(defenderFile.getText())) {
+						defenderValid=true;
 						defender=new Entity(WebParser.getCharacter(Sensitive.getUsername(),Sensitive.getPassword(), defenderFile.getText()), results);
 					}
 					else {
