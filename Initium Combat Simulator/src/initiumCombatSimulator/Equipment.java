@@ -69,6 +69,7 @@ public class Equipment {
 				dura=Integer.parseInt(base.substring(0, base.indexOf("/")));
 				base=base.substring(base.indexOf("/")+1, base.length());
 				ogDura=dura;
+				//System.out.println(dura);
 			}
 			if(base.indexOf("/")!=-1){
 				strMod=Integer.parseInt(base.substring(0, base.indexOf("/")));

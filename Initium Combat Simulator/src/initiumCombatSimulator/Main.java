@@ -60,7 +60,7 @@ public class Main {
 				boolean attackerValid=false;
 				boolean defenderValid=false;
 				
-				//this 
+				//this checks to see if the user entered an actual number into the textbox.
 				if(isInteger(numberOfRuns.getText())) {
 					runs=Integer.parseInt(numberOfRuns.getText());
 				}
@@ -73,7 +73,6 @@ public class Main {
 					
 					//checks if the attacker's string is a number. if yes, pulls the information from initium itself
 					if(isDouble(attackerFile.getText())) {
-						System.out.println("YEET");
 						attacker=new Entity(WebParser.getCharacter(Sensitive.getUsername(),Sensitive.getPassword(),attackerFile.getText()), results);
 					}
 					
@@ -105,50 +104,14 @@ public class Main {
 							defender=new Entity(defenderFile.getText(), results);
 						}
 					}
-					if(attackerValid&&defenderValid) {
+					
+					//if both entities were created properly, we begin.
+					if(attackerValid&&defenderValid&&attacker.getValid()&&defender.getValid()) {
 						results.append("Running Simulation. This may take a while...\n\n");
 						Combat Battle=new Combat(attacker, defender, results);
 						Battle.runSim(runs);
 					}
 				}
-				
-				/*
-				//THIS IS THE OLD CODE
-				//this first section validates the number of runs.
-				int runs=0;
-				
-				try{
-					runs=Integer.parseInt(numberOfRuns.getText());
-				}
-				catch(Exception e){
-					//if it's not a number, it keeps it at 0 and is then caught by the next if statement.
-				}
-				if(runs<=0){
-					results.append("That number of runs doesn't make sense...\n\n");
-				}
-				
-				//this section validates the file names, then validates the entities, and then launches the program.
-				else{
-					String[]pathAttacker={"resources","entities",attackerFile.getText()};
-					String[]pathDefender={"resources","entities",defenderFile.getText()};
-
-
-					if(IO.validateFile(IO.createPath(pathAttacker,true))&&IO.validateFile(IO.createPath(pathDefender,true))){
-						Entity Attacker=new Entity(attackerFile.getText(), results);
-						Entity Defender=new Entity(defenderFile.getText(), results);
-						if(Attacker.getValid()&&Defender.getValid()){
-							results.append("Running Simulation. This may take a while....\n\n");
-							Combat Battle=new Combat(Attacker, Defender, results);
-							Battle.runSim(runs);
-						}
-					}
-					if(!IO.validateFile(IO.createPath(pathAttacker,true))){
-						results.append("The file "+IO.createPath(pathAttacker, true)+" does not exist.\n\n");
-					}
-					if(!IO.validateFile(IO.createPath(pathDefender,true))){
-						results.append("The file "+IO.createPath(pathDefender, true)+" does not exist.\n\n");
-					}	
-				}*/
 			}	
 		});
 		runSim.setBounds(100,450,200,100);
@@ -300,6 +263,11 @@ public class Main {
 	    }
 	}
 	
+	/**
+	 * Tests string to see if it can be converted cleanly to a double.
+	 * @param test - the string to test
+	 * @return
+	 */
 	private static boolean isDouble(String test) {
 		try {
 			Double.parseDouble(test);

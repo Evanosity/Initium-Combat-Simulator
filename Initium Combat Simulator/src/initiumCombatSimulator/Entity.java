@@ -92,6 +92,20 @@ public class Entity extends IO{
 			hp=new int[2];
 			armor=new Armor[9];
 			
+			//if reading from online, the stats will appear as 10 (10). this solves that. it might be worth experimenting with just grabbing the
+			//modified stat from the beginning and not using my algorithms, i bet that would be faster. ill do it later lol
+			for(int i=1;i!=4;i++) {
+				if(base[i].contains("(")){
+					base[i]=base[i].substring(0,base[i].indexOf("("));
+					System.out.println(base[i]);
+				}
+			}
+			
+			//same deal as above, but for hp (49/49->49)
+			if(base[4].contains("/")){
+				base[4]=base[4].substring(0,base[4].indexOf("/"));
+			}
+			
 			name=base[0];
 			str[0]=Double.parseDouble(base[1]);
 			str[1]=Double.parseDouble(base[1]);
@@ -111,15 +125,18 @@ public class Entity extends IO{
 			armor[7]=new Armor(base[12],this, "rightring", outputZone);
 			armor[8]=new Armor(base[13],this, "neck", outputZone);
 			lefthand=new Weapon(base[14],base[15],this, "lefthand", outputZone);
-			righthand=new Weapon(base[16],base[17],this, "righthand", outputZone);		
+			righthand=new Weapon(base[16],base[17],this, "righthand", outputZone);
+			
+			if(str[0]==str[1]&&dex[0]==dex[1]&&inte[0]==inte[1]) {
+				applyDexPenalty();
+				applyStrMod();
+				applyIntMod();
+			}
 		}
 		catch(Exception e){
 			outputZone.append("There was an error when generating the stats for entity "+getName()+". Please double check your file.\n\n");
 			valid=false;
 		}
-		applyDexPenalty();
-		applyStrMod();
-		applyIntMod();
 		
 		//buffs=new Buff[base.length-18];
 		//

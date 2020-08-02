@@ -4,6 +4,7 @@ import javax.swing.JTextArea;
 
 /**
  * I dont really know, but I know that it works.
+ * This class needs to be rethough. Really, the entire buff framework needs to be torn out and redone. Soon....
  * @author Evan
  * @date September 2/2019
  */
